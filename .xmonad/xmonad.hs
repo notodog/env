@@ -21,6 +21,35 @@ import qualified Data.Map        as M
 
 
 ------------------------------------------------------------------------
+-- Colors and borders
+-- Currently based on the ir_black theme.
+--
+myNormalBorderColor  = "#7C7C7C"
+myFocusedBorderColor = "#FFB6B0"
+myActiveTextColor = "#CEFFAC"
+
+-- Colors for text and backgrounds of each tab when in "Tabbed" layout.
+tabConfig = defaultTheme {
+    fontName = "xft:Droid Sans Mono:size=8:bold:antialias=true",
+    activeBorderColor = "#7C7C7C",
+    activeTextColor = myActiveTextColor,
+    activeColor = "#000000",
+    inactiveBorderColor = myNormalBorderColor,
+    inactiveTextColor = "#EEEEEE",
+    inactiveColor = "#000000"
+}
+
+-- Color of current window title in xmobar.
+xmobarTitleColor = myFocusedBorderColor
+
+-- Color of current workspace in xmobar.
+xmobarCurrentWorkspaceColor = myActiveTextColor
+
+-- Width of the window border in pixels.
+myBorderWidth = 1
+
+
+------------------------------------------------------------------------
 -- Terminal
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -40,14 +69,16 @@ myScreenshot = "screenshot"
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
 -- myLauncher = "$(yeganesh -x -- -fn '-*-terminus-*-r-normal-*-*-120-*-*-*-*-iso8859-*' -nb '#000000' -nf '#FFFFFF' -sb '#7C7C7C' -sf '#CEFFAC')"
-myLauncher = "dmenu_run -nb '#232323' -nf '#9fbc00' -sb '#9fbc00' -sf '#141414' -p '$'"
+myLauncher = "dmenu_run -nf '" ++ myActiveTextColor ++
+             "' -fn 'xft:Droid Sans Mono:size=9:antialias=true' " ++
+	     "-sb '#9fbc00' -sf '#141414' -p '$'"
 
 
 ------------------------------------------------------------------------
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:term","2:web","3:vm","4:media"]
+myWorkspaces = ["1:term","2:web","3:vm","4:r"]
 
 
 ------------------------------------------------------------------------
@@ -74,7 +105,7 @@ myManageHook = composeAll
     , className =? "Gimp"           --> doFloat
     , resource  =? "gpicview"       --> doFloat
     , className =? "MPlayer"        --> doFloat
-    , className =? "VirtualBox"     --> doShift "4:vm"
+    , className =? "VirtualBox"     --> doShift "3:vm"
     , className =? "Xchat"          --> doShift "5:media"
     , className =? "stalonetray"    --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
@@ -98,33 +129,6 @@ myLayout = avoidStruts (
     Full |||
     spiral (6/7)) |||
     noBorders (fullscreenFull Full)
-
-
-------------------------------------------------------------------------
--- Colors and borders
--- Currently based on the ir_black theme.
---
-myNormalBorderColor  = "#7c7c7c"
-myFocusedBorderColor = "#ffb6b0"
-
--- Colors for text and backgrounds of each tab when in "Tabbed" layout.
-tabConfig = defaultTheme {
-    activeBorderColor = "#7C7C7C",
-    activeTextColor = "#CEFFAC",
-    activeColor = "#000000",
-    inactiveBorderColor = "#7C7C7C",
-    inactiveTextColor = "#EEEEEE",
-    inactiveColor = "#000000"
-}
-
--- Color of current window title in xmobar.
-xmobarTitleColor = "#FFB6B0"
-
--- Color of current workspace in xmobar.
-xmobarCurrentWorkspaceColor = "#CEFFAC"
-
--- Width of the window border in pixels.
-myBorderWidth = 1
 
 
 ------------------------------------------------------------------------
